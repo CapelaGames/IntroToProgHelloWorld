@@ -4,6 +4,8 @@ using UnityEngine.InputSystem;
 public class MarbleController : MonoBehaviour
 {
     public float speed = 10;
+    public float boostSpeed = 5;
+    public float maxSpeed = 20;
     public float jumpSpeed = 400;
     Vector3 input;
     Rigidbody rb;
@@ -19,6 +21,18 @@ public class MarbleController : MonoBehaviour
         if (cam == null)
         {
             cam = FindFirstObjectByType<Camera>();
+        }
+    }
+
+    void OnBoost()
+    {
+        // boost in current direction
+        // but max out the speed, so if we are going to fast, boost doesnt do anything
+        rb.linearVelocity *= boostSpeed;
+
+        if (rb.linearVelocity.magnitude > maxSpeed)
+        {
+            rb.linearVelocity = rb.linearVelocity.normalized * maxSpeed;
         }
     }
 
